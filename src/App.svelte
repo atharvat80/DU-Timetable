@@ -250,19 +250,6 @@
 
 <br>
 
-<blockquote>
-	<p>Please Note</p>
-	<ul>
-		<li>This utility is just a hobby project and therefore has not been robustly tested please use 
-			<a href="http://www.maths.dur.ac.uk/clash_checker/module_checker.html">Timetable Compatibility Utility</a> to check the timetable generated here is correct.
-		</li>
-		<li>Compulsory events are underlined. If there is more than one event in a cell is underlined then there might be a clash.</li>
-		<li>In a cell, entry text is in the format "(X) Module Name [a-b]" where "(X)" is the <a href="https://www.maths.dur.ac.uk/clash_checker/help.html">nature of the activity</a> and "[a-b]" shows the range of teaching weeks the activity is suppose to take place.</li>
-	</ul>
-</blockquote>
-
-<br>
-
 <footer style="font-size:small; color: gray">
 	<hr>
 	<p>Made by Atharva.<br>Use Firefox to support Mozilla's mission of a healthy and open internet.</p>
