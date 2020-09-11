@@ -137,8 +137,8 @@
 	</form>
 
 	{#if Object.keys(selected).length !== 0}
-		<div style="margin: 1rem 1rem" transition:fade>
-			<p style="color:gray; font-size:small;">Module names are editable. Change them as you wish and click update.</p>
+		<p transition:fade style="color:gray; font-size:small;">Module names are editable. Change them as you wish and click update.</p>
+		<fieldset transition:fade>
 			{#each Object.keys(selected) as x}
 				<div style="margin-bottom: 0.4rem">
 					<span on:click={() => {del(x)}} style="cursor: pointer;">🗑</span>
@@ -147,7 +147,7 @@
 					</span>
 				</div>
 			{/each}
-		</div>
+		</fieldset>
 		<button on:click={generate}>Update</button>
 	{/if}
 <!-- </fieldset> -->
