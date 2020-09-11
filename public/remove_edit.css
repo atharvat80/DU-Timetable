@@ -1,0 +1,10 @@
+.entry{
+	background-color: inherit;
+	border:none;
+	padding: inherit;
+	margin: inherit;
+}
+
+.close {
+	display: none;
+}

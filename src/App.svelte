@@ -2,16 +2,17 @@
 	import { fade } from 'svelte/transition';
 	let modules = {};
 	let timetable = {};
-	fetch(`https://${window.location.host}/modules.json`)
+	fetch(`${document.baseURI}modules.json`)
 		.then(response => response.json())
 		.then(data => modules = data);
-	fetch(`https://${window.location.host}/timetable.json`)
+	fetch(`${document.baseURI}timetable.json`)
 		.then(response => response.json())
 		.then(data => timetable = data);
 
 	let subject = '';
 	let module = '';
 	let color = '';
+	let edit = false;
 	let showWeekend = true;
 	let codes = ["A", "B", "C", "D", "E", "F", "G"];
 	let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
@@ -26,7 +27,7 @@
 			codes = ["A", "B", "C", "D", "E"];
 			days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 		}
-	} 
+	}
 
 	function add() {
 		if (subject !== '' && modules !== ''){
@@ -41,6 +42,7 @@
 		let temp = selected;
 		delete temp[x];
 		selected = temp;
+		localStorage.setItem("selected", JSON.stringify(selected));
 	}
 
 	function generate () {
@@ -57,11 +59,13 @@
 				var weeks = JSON.parse("["+ entry.weeks +"]");
 				var range = weeks.length >= 20 ? '' : Math.min(...weeks) === Math.max(...weeks) ? `[${Math.min(...weeks)}]` :`[${Math.min(...weeks)}-${Math.max(...weeks)}]`; 
 				if (entry.compulsory === "") {
-					toAdd = `<p class="entry" style="margin:0; color: ${selected[key].color};">
+					toAdd = `<p class="entry" style="color: ${selected[key].color};">
+								<span class="close" onclick="this.parentNode.remove()">×</span>
 								(${entry.activity}) ${selected[key].name} ${range}
 							</p>`;
 				} else {
-					toAdd = `<p class="entry" style="margin:0; color: ${selected[key].color}; font-size:small">
+					toAdd = `<p class="entry" style="color: ${selected[key].color}; font-size:small">
+								<span class="close" onclick="console.log(this)">×</span>
 								<u>(${entry.activity}) ${selected[key].name}</u>
 							</p>`
 				}
@@ -77,6 +81,7 @@
 		<head>
 			<title>Your Timetable</title>
 			<link rel="stylesheet" href="style.css">
+			<link rel="stylesheet" href="remove_edit.css">
 		</head>
 		<body>
 			${document.getElementById("timetable").outerHTML}
@@ -92,8 +97,8 @@
 	</p>
 </header>
 
-<fieldset>
-	<p><strong>Manage Modules</strong></p>
+<!-- <fieldset> -->
+	<h4>Manage Modules</h4>
 	<hr>
 	<form on:submit|preventDefault="{add}">
 		<label for="sub">Subject</label>
@@ -111,7 +116,7 @@
 			<option value=''>Select</option>
 			{#if subject !== ''}
 				{#each modules[subject] as mod}
-					<option value="{mod.number}">{`${mod.number} ${mod.title}`}</option>
+					<option value="{mod.number}">{mod.number} {mod.title}</option>
 				{/each}
 			{/if}
 		</select>
@@ -133,91 +138,98 @@
 
 	{#if Object.keys(selected).length !== 0}
 		<div style="margin: 1rem 1rem" transition:fade>
+			<p style="color:gray; font-size:small;">Module names are editable. Change them as you wish and click update.</p>
 			{#each Object.keys(selected) as x}
 				<div style="margin-bottom: 0.4rem">
 					<span on:click={() => {del(x)}} style="cursor: pointer;">🗑</span>
-					<span style="color: {selected[x].color}">{selected[x].number} {selected[x].name}</span>
+					<span style="color: {selected[x].color}">{selected[x].number} 
+						<span contenteditable="true" bind:innerHTML="{selected[x].name}">{selected[x].name}</span>
+					</span>
 				</div>
 			{/each}
 		</div>
 		<button on:click={generate}>Update</button>
-		<button on:click={print}><span style="font-size:0.8rem">🖨</span> Print</button>
-		<button on:click={toggleWeekend}>{showWeekend === true ? 'Hide Weekend' : 'Show Weekend'}</button>
 	{/if}
-</fieldset>
+<!-- </fieldset> -->
 
 <section>
 	<br>
+	<h4>Preview</h4><hr>
+	<p>Remove the events you won't be attending and click print.</p>
+	<p>
+		<button on:click={print}><span style="font-size:0.8rem">🖨</span> Print</button>
+		<button on:click={toggleWeekend}>{showWeekend === true ? 'Hide Weekend' : 'Show Weekend'}</button>
+	</p>
 	<table id="timetable">
 		<thead>
 			<th style="border:none; background: white;"></th>
 			{#each days as day}
-				<th>{day}</th>
+				<th style="white-space: nowrap;">{day}</th>
 			{/each}
 		</thead>
 		<tbody>
 			<tr>
-				<td>08:00</td>
+				<td style="white-space: nowrap;">08:00</td>
 				{#each codes.map(letter => letter + "1") as code}
 					<td id={code}></td>
 				{/each}
 			</tr>
 			<tr>
-				<td>09:00</td>
+				<td style="white-space: nowrap;">09:00</td>
 				{#each codes.map(letter => letter + "2") as code}
 					<td id={code}></td>
 				{/each}
 			</tr>
 			<tr>
-				<td>10:00</td>
+				<td style="white-space: nowrap;">10:00</td>
 				{#each codes.map(letter => letter + "3") as code}
 					<td id={code}></td>
 				{/each}
 			</tr>
 			<tr>
-				<td>11:00</td>
+				<td style="white-space: nowrap;">11:00</td>
 				{#each codes.map(letter => letter + "4") as code}
 					<td id={code}></td>
 				{/each}
 			</tr>
 			<tr>
-				<td>12:00</td>
+				<td style="white-space: nowrap;">12:00</td>
 				{#each codes.map(letter => letter + "5") as code}
 					<td id={code}></td>
 				{/each}
 			</tr>
 			<tr>
-				<td>01:00</td>
+				<td style="white-space: nowrap;">01:00</td>
 				{#each codes.map(letter => letter + "6") as code}
 					<td id={code}></td>
 				{/each}
 			</tr>
 			<tr>
-				<td>02:00</td>
+				<td style="white-space: nowrap;">02:00</td>
 				{#each codes.map(letter => letter + "7") as code}
 					<td id={code}></td>
 				{/each}
 			</tr>
 			<tr>
-				<td>03:00</td>
+				<td style="white-space: nowrap;">03:00</td>
 				{#each codes.map(letter => letter + "8") as code}
 					<td id={code}></td>
 				{/each}
 			</tr>
 			<tr>
-				<td>04:00</td>
+				<td style="white-space: nowrap;">04:00</td>
 				{#each codes.map(letter => letter + "9") as code}
 					<td id={code}></td>
 				{/each}
 			</tr>
 			<tr>
-				<td>05:00</td>
+				<td style="white-space: nowrap;">05:00</td>
 				{#each codes.map(letter => letter + "10") as code}
 					<td id={code}></td>
 				{/each}
 			</tr>
 			<tr>
-				<td>06:00</td>
+				<td style="white-space: nowrap;">06:00</td>
 				{#each codes.map(letter => letter + "11") as code}
 					<td id={code}></td>
 				{/each}
@@ -229,13 +241,13 @@
 <br>
 
 <blockquote>
-	<p>Notice</p>
+	<p>Please Note</p>
 	<ul>
-		<li>Compulsory events are underlined. If there is more than one event in a cell is underlined then there might be a clash.</li>
-		<li>In a cell, entry text is in the format "(X) Module Name [a-b]" where "(X)" is the <a href="https://www.maths.dur.ac.uk/clash_checker/help.html">nature of the activity</a> and "[a-b]" shows the range of teaching weeks the activity is supoose to take place.</li>
 		<li>This utility is just a hobby project and therefore has not been robustly tested please use 
 			<a href="http://www.maths.dur.ac.uk/clash_checker/module_checker.html">Timetable Compatibility Utility</a> to check the timetable generated here is correct.
 		</li>
+		<li>Compulsory events are underlined. If there is more than one event in a cell is underlined then there might be a clash.</li>
+		<li>In a cell, entry text is in the format "(X) Module Name [a-b]" where "(X)" is the <a href="https://www.maths.dur.ac.uk/clash_checker/help.html">nature of the activity</a> and "[a-b]" shows the range of teaching weeks the activity is supoose to take place.</li>
 	</ul>
 </blockquote>
 
@@ -245,10 +257,3 @@
 	<hr>
 	<p>Made by Atharva.<br>Use Firefox to support Mozilla's mission of a healthy and open internet.</p>
 </footer>
-
-<style>
-
-	td:hover {
-		background-color: aliceblue;
-	}
-</style>
