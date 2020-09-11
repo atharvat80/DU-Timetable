@@ -155,7 +155,17 @@
 <section>
 	<br>
 	<h4>Preview</h4><hr>
-	<p>Remove the events you won't be attending and click print.</p>
+	<blockquote>
+		<p>Please Note</p>
+		<ul>
+			<li>This utility is just a hobby project and therefore has not been robustly tested please use 
+				<a href="http://www.maths.dur.ac.uk/clash_checker/module_checker.html">Timetable Compatibility Utility</a> to check the timetable generated here is correct.
+			</li>
+			<li>Compulsory events are underlined. If there is more than one event in a cell is underlined then there might be a clash.</li>
+			<li>In a cell, entry text is in the format "(X) Module Name [a-b]" where "(X)" is the <a href="https://www.maths.dur.ac.uk/clash_checker/help.html">nature of the activity</a> and "[a-b]" shows the range of teaching weeks the activity is suppose to take place.</li>
+			<li>Remove the events you won't be attending and click print.</li>
+		</ul>
+	</blockquote>
 	<p>
 		<button on:click={print}><span style="font-size:0.8rem">🖨</span> Print</button>
 		<button on:click={toggleWeekend}>{showWeekend === true ? 'Hide Weekend' : 'Show Weekend'}</button>
@@ -247,7 +257,7 @@
 			<a href="http://www.maths.dur.ac.uk/clash_checker/module_checker.html">Timetable Compatibility Utility</a> to check the timetable generated here is correct.
 		</li>
 		<li>Compulsory events are underlined. If there is more than one event in a cell is underlined then there might be a clash.</li>
-		<li>In a cell, entry text is in the format "(X) Module Name [a-b]" where "(X)" is the <a href="https://www.maths.dur.ac.uk/clash_checker/help.html">nature of the activity</a> and "[a-b]" shows the range of teaching weeks the activity is supoose to take place.</li>
+		<li>In a cell, entry text is in the format "(X) Module Name [a-b]" where "(X)" is the <a href="https://www.maths.dur.ac.uk/clash_checker/help.html">nature of the activity</a> and "[a-b]" shows the range of teaching weeks the activity is suppose to take place.</li>
 	</ul>
 </blockquote>
 
