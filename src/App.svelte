@@ -2,10 +2,10 @@
 	import { fade } from 'svelte/transition';
 	let modules = {};
 	let timetable = {};
-	fetch(`http://${window.location.host}/modules.json`)
+	fetch(`https://${window.location.host}/modules.json`)
 		.then(response => response.json())
 		.then(data => modules = data);
-	fetch(`http://${window.location.host}/timetable.json`)
+	fetch(`https://${window.location.host}/timetable.json`)
 		.then(response => response.json())
 		.then(data => timetable = data);
 
