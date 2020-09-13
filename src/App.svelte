@@ -215,7 +215,7 @@ import { detach_between_dev } from 'svelte/internal';
 			<li>Compulsory events are underlined. If there is more than one event in a cell is underlined then there might be a clash.</li>
 			<li>In a cell, entry text is in the format "(X) Module Name [a-b]" where "(X)" is the <a href="https://www.maths.dur.ac.uk/clash_checker/help.html">nature of the activity</a> and "[a-b]" shows the range of teaching weeks the activity is suppose to take place.</li>
 			<li>Remove the events you won't be attending and click "🖨 Print" to print or "Export as ics" to import this to you online calendar.</li>
-			<li>Please <u>create a new calendar</u> and then import the ics file download from here to avoid any side effects to your main calendar.</li>
+			<li>Please <u>create a new calendar</u> and then import the ics file download from here to avoid any side effects to your main calendar. Refresh the page after importing.</li>
 		</ul>
 	</blockquote>
 	<p>
