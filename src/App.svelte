@@ -217,6 +217,7 @@ import { detach_between_dev } from 'svelte/internal';
 			<li>Remove the events you won't be attending and click "🖨 Print" to print or "Export as ics" to import this to you online calendar.</li>
 			<li>Please <u>create a new calendar</u> and then import the ics file download from here to avoid any side effects to your main calendar. (You might need to refresh the page after importing to see the imported timetable)</li>
 		</ul>
+		<p><a href="mailto:atharva.tidke@durham.ac.uk">Contact me</a> if you experience any issues.</p>
 	</blockquote>
 	<p>
 		<button on:click={print}><span style="font-size:0.8rem">🖨</span> Print</button>
